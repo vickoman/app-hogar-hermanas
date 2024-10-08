@@ -11,7 +11,9 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     public function index() {
-        $users = User::with('role')->get();
+        $users = User::with('role')
+        ->where('id', '!=', Auth::id())
+        ->paginate(10);
         return Inertia::render('Users/Index', [
             'users' => $users,
         ]);
